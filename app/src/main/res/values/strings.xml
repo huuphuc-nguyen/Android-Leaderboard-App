@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">Leaderboard</string>
+    <string name="app_name">Leaderboard App</string>
+    <string name="hint_username">Enter player name</string>
+    <string name="hint_score">Enter player score</string>
+    <string name="button_display">Display Leaderboard</string>
+    <string name="button_add">Add to Leaderboard</string>
 </resources>
