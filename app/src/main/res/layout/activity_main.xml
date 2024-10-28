@@ -8,14 +8,15 @@
     tools:context=".MainActivity"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="30dp"
+    android:padding="20dp"
     android:background="@color/background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="100dp"
+        android:layout_marginTop="-100dp"
+        android:layout_marginBottom="30dp"
         android:gravity="center">
         <ImageView
             android:layout_width="wrap_content"
@@ -38,6 +39,7 @@
     </LinearLayout>
 
     <EditText
+        android:id="@+id/txt_name"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:hint="@string/hint_username"
@@ -49,6 +51,7 @@
         android:paddingLeft="10dp"/>
 
     <EditText
+        android:id="@+id/txt_score"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:hint="@string/hint_score"
@@ -64,7 +67,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
-        android:layout_marginTop="100dp">
+        android:layout_marginTop="30dp">
         <androidx.appcompat.widget.AppCompatButton
             android:textAllCaps="false"
             android:layout_width="wrap_content"
@@ -77,6 +80,7 @@
             android:layout_marginEnd="20dp"
             android:background="@drawable/styled_button"/>
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_add"
             android:textAllCaps="false"
             android:padding="10dp"
             android:textColor="@color/white"
@@ -88,5 +92,35 @@
 
             android:background="@drawable/styled_button"/>
     </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="300dp "
+        android:background="@color/orange_dark">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:id="@+id/players_container">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_launcher_background"
+                    android:padding="24dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="hiiiiiiiii">
+
+                </TextView>
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
