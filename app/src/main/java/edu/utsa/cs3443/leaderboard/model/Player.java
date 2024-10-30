@@ -5,10 +5,10 @@ public class Player {
     private int score;
     private String imgUrl;
 
-    public Player(String name, int score, String imgUrl) {
+    public Player(String name, int score) {
         this.name = name;
         this.score = score;
-        this.imgUrl = imgUrl;
+        this.imgUrl = null;
     }
 
     public String getName() {

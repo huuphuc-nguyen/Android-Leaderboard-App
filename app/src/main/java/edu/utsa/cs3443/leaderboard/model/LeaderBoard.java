@@ -14,10 +14,18 @@ public class LeaderBoard {
     }
 
     public void loadPlayer(){
-        addPlayer(new Player("Felix", 220, ""));
-        addPlayer(new Player("1Felix", 220, ""));
-        addPlayer(new Player("2Felix", 220, ""));
-        addPlayer(new Player("3Felix", 220, ""));
+        addPlayer(new Player("Felix", 220));
+        addPlayer(new Player("1Felix", 220));
+        addPlayer(new Player("2Felix", 220));
+        addPlayer(new Player("3Felix", 220));
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
     }
 
     public void savePlayer(){

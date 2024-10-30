@@ -14,14 +14,24 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.core.view.WindowInsetsCompat;
+
+import java.util.ArrayList;
+
+import edu.utsa.cs3443.leaderboard.model.LeaderBoard;
+import edu.utsa.cs3443.leaderboard.model.Player;
 
 public class MainActivity extends AppCompatActivity {
 
     private LinearLayout playersContainer;
     private EditText usernameEditText;
     private EditText scoreEditText;
+    private ScrollView scrollView;
+    private LeaderBoard leaderBoard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +48,10 @@ public class MainActivity extends AppCompatActivity {
         usernameEditText = findViewById(R.id.txt_name);
         scoreEditText = findViewById(R.id.txt_score);
         Button addButton = findViewById(R.id.btn_add);
+        Button showButton = findViewById(R.id.btn_show);
+        scrollView = findViewById(R.id.scroll_view);
+
+        loadLeaderBoard();
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,32 +59,82 @@ public class MainActivity extends AppCompatActivity {
                 addPlayer();
             }
         });
+
+        showButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dynamicLoad(leaderBoard.getPlayers());
+            }
+        });
     }
 
     private void addPlayer() {
-        String username = usernameEditText.getText().toString();
-        String score = scoreEditText.getText().toString();
+        String username = usernameEditText.getText().toString().trim();
+        String scoreInput = scoreEditText.getText().toString().trim()   ;
 
-        // Create a new LinearLayout for the player
-        LinearLayout playerLayout = new LinearLayout(this);
-        playerLayout.setOrientation(LinearLayout.HORIZONTAL);
-        playerLayout.setGravity(Gravity.CENTER);
-        playerLayout.setPadding(10, 10, 10, 10);
+        // Validate score input
+        int score;
+        try {
+            score = Integer.parseInt(scoreInput);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Please enter a valid number for score.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        // Add ImageView
-        ImageView imageView = new ImageView(this);
-        imageView.setImageResource(R.drawable.ic_launcher_background);
-        imageView.setPadding(24, 24, 24, 24);
-        playerLayout.addView(imageView);
+        leaderBoard.addPlayer(new Player(username,score));
+        leaderBoard.savePlayer();
+        dynamicLoad(leaderBoard.getPlayers());
+    }
 
-        // Add TextView
-        TextView textView = new TextView(this);
-        textView.setText("Player: " + username + ", Score: " + score);
-        textView.setTextColor(getResources().getColor(R.color.white));
-        textView.setPadding(16, 0, 16, 0);
-        playerLayout.addView(textView);
+    private void dynamicLoad(ArrayList<Player> players){
+        if (players == null){
+            return;
+        }
 
-        // Add the player layout to the container
-        playersContainer.addView(playerLayout);
+        playersContainer.removeAllViews();
+
+        for (Player player : players){
+            // Create a new LinearLayout for the player
+            LinearLayout playerLayout = new LinearLayout(this);
+            playerLayout.setOrientation(LinearLayout.HORIZONTAL);
+            playerLayout.setGravity(Gravity.CENTER_VERTICAL);
+            playerLayout.setPadding(10, 10, 10, 10);
+
+            // Add ImageView
+            ImageView imageView = new ImageView(this);
+            imageView.setImageResource(R.drawable.ic_launcher_background);
+            imageView.setPadding(24, 24, 24, 24);
+            // Set margins for the ImageView
+            LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            imageParams.setMargins(100, 0, 0, 0); // Left, top, right, bottom margins
+            imageView.setLayoutParams(imageParams);
+            playerLayout.addView(imageView);
+
+            // Add TextView
+            TextView textView = new TextView(this);
+            textView.setText("Player: " + player.getName() + ", Score: " + player.getScore());
+            textView.setTextColor(getResources().getColor(R.color.white));
+            textView.setPadding(16, 0, 16, 0);
+            playerLayout.addView(textView);
+
+            // Add the player layout to the container
+            playersContainer.addView(playerLayout);
+
+
+            scrollView.post(new Runnable() {
+                @Override
+                public void run() {
+                    scrollView.fullScroll(View.FOCUS_DOWN);
+                }
+            });
+        }
+    }
+
+    private void loadLeaderBoard(){
+        leaderBoard = new LeaderBoard();
+        leaderBoard.loadPlayer();
     }
 }
