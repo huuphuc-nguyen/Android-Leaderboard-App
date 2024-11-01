@@ -8,7 +8,7 @@ public class Player {
     public Player(String name, int score) {
         this.name = name;
         this.score = score;
-        this.imgUrl = null;
+        this.imgUrl = "https://mighty.tools/mockmind-api/content/human/65.jpg";
     }
 
     public String getName() {

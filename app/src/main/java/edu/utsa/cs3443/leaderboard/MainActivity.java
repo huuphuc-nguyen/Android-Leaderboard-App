@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 import edu.utsa.cs3443.leaderboard.model.LeaderBoard;
@@ -102,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
             // Add ImageView
             ImageView imageView = new ImageView(this);
-            imageView.setImageResource(R.drawable.ic_launcher_background);
+            //imageView.setImageResource(R.drawable.ic_launcher_background);
             imageView.setPadding(24, 24, 24, 24);
             // Set margins for the ImageView
             LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(
@@ -111,6 +113,12 @@ public class MainActivity extends AppCompatActivity {
             );
             imageParams.setMargins(100, 0, 0, 0); // Left, top, right, bottom margins
             imageView.setLayoutParams(imageParams);
+
+            // Use Glide to load the image from URL
+            Glide.with(this)
+                    .load(player.getImgUrl()) // Load image URL from player object
+                    .into(imageView);
+
             playerLayout.addView(imageView);
 
             // Add TextView

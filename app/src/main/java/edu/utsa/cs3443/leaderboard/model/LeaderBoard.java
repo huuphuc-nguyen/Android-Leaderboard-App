@@ -14,6 +14,7 @@ public class LeaderBoard {
     }
 
     public void loadPlayer(){
+        // TODO: create file or read from file
         addPlayer(new Player("Felix", 220));
         addPlayer(new Player("1Felix", 220));
         addPlayer(new Player("2Felix", 220));
