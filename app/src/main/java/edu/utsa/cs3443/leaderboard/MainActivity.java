@@ -19,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
@@ -28,6 +30,10 @@ import edu.utsa.cs3443.leaderboard.model.LeaderBoard;
 import edu.utsa.cs3443.leaderboard.model.Player;
 
 public class MainActivity extends AppCompatActivity {
+
+    // Recycler View
+    private RecyclerView recyclerView;
+    private PlayerAdapter playerAdapter;
 
     private LinearLayout playersContainer;
     private EditText usernameEditText;
@@ -46,14 +52,23 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        playersContainer = findViewById(R.id.players_container);
+//        playersContainer = findViewById(R.id.players_container);
+//        scrollView = findViewById(R.id.scroll_view);
+
         usernameEditText = findViewById(R.id.txt_name);
         scoreEditText = findViewById(R.id.txt_score);
         Button addButton = findViewById(R.id.btn_add);
         Button showButton = findViewById(R.id.btn_show);
-        scrollView = findViewById(R.id.scroll_view);
 
         loadLeaderBoard();
+
+        // Initialize RecyclerView
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Initialize Player List and Adapter
+        playerAdapter = new PlayerAdapter(this, leaderBoard.getPlayers());
+        recyclerView.setAdapter(playerAdapter);
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         showButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dynamicLoad(leaderBoard.getPlayers());
+                //dynamicLoad(leaderBoard.getPlayers());
             }
         });
     }
@@ -85,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
         leaderBoard.addPlayer(new Player(username,score));
         leaderBoard.savePlayer();
-        dynamicLoad(leaderBoard.getPlayers());
+        //dynamicLoad(leaderBoard.getPlayers());
     }
 
     private void dynamicLoad(ArrayList<Player> players){
@@ -108,8 +123,8 @@ public class MainActivity extends AppCompatActivity {
             imageView.setPadding(24, 24, 24, 24);
             // Set margins for the ImageView
             LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
+                    512,
+                    512
             );
             imageParams.setMargins(100, 0, 0, 0); // Left, top, right, bottom margins
             imageView.setLayoutParams(imageParams);
@@ -142,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadLeaderBoard(){
-        leaderBoard = new LeaderBoard();
+        leaderBoard = new LeaderBoard(this);
         leaderBoard.loadPlayer();
     }
 }
